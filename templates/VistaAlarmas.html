@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<section class="content">
+    <div class="row">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Alarmas Activadas</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>id</th>
+                <th>Codigo</th>
+                <th>Descripción</th>
+                <th>Hora Registrada</th>
+                <th>Fecha Registrada</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for dato in datos %}
+                <tr>
+                <td>{{ dato.id }}</td>
+                <td>{{ dato.codigo }}</td>
+                <td>{{ dato.descripcion }}</td>
+                <td>{{ dato.hora_inicial }}</td>
+                <td>{{ dato.fec_inicial }}</td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+  <div class="float-right d-none d-sm-block">
+    <b>Version</b> 3.0.2
+  </div>
+  <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+  reserved.
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{{url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- DataTables -->
+<script src="{{url_for('static', filename='plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+
+<script src="{{url_for('static', filename='dist/js/demo.js')}}"></script>
+<!-- page script -->
+<script>
+$(function () {
+  $("#example1").DataTable();
+  $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+  });
+});
+</script>
+{% endblock %}

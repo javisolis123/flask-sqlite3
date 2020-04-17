@@ -30,15 +30,62 @@ var chartHumidity;
 
                 chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
                 chartHumidity.series[0].addPoint(data2, true, shiftHumidity);
-                $(".sensor1").text("");
-                $(".sensor1").text("Temperature : " + data1[1]);
+                
+                if (result[18] == 0){
+                    document.getElementById('alarmas1').innerHTML = '';
+                }
+                else{
+                    document.getElementById('alarmas1').innerHTML = result[18];
+                }
 
-                $(".sensor2").text("");
-                $(".sensor2").text("Humidity : " + data2[1],3);
+                //Cuadro 1x1
+                $(".TRtemperatura").text("");
+                $(".TRtemperatura").text("Temperatura: " + result[1] + "°C");
+                $(".TRhumedad").text("");
+                $(".TRhumedad").text("Humedad: " + result[2] + "%");
 
+                //Cuadro 1x2
+                $(".TRch1").text("");
+                $(".TRch1").text("Actual: " + result[3] + " [V]");
+                $(".TRch1max").text("");
+                $(".TRch1max").text("Máxima: " + result[9] + " [V]");
+                $(".TRch1min").text("");
+                $(".TRch1min").text("Mínima: " + result[10] + " [V]");
+
+                //Cuadro 1x3
+                $(".TRch2").text("");
+                $(".TRch2").text("Actual: " + result[4] + " [V]");
+                $(".TRch2max").text("");
+                $(".TRch2max").text("Máxima: " + result[11] + " [V]");
+                $(".TRch2min").text("");
+                $(".TRch2min").text("Mínima: " + result[12] + " [V]");
+
+                //Cuadro 2x1
+                $(".PromTemp").text("");
+                $(".PromTemp").text("Temperatura: " + result[15] + "°C");
+                $(".PromHum").text("");
+                $(".PromHum").text("Humedad: " + result[16] + "%");
+
+                //Cuadro 2x2
+                $(".Tmaxima").text("");
+                $(".Tmaxima").text("Temperatura Máxima: " + result[7] + "°C");
+                $(".Tminima").text("");
+                $(".Tminima").text("Temperatura Mínima: " + result[8] + "°C");
+                $(".Hmaxima").text("");
+                $(".Hmaxima").text("Humedad Máxima: " + result[13] + "%");
+                $(".Hminima").text("");
+                $(".Hminima").text("Humedad Mínima: " + result[14] + "%");
+
+                //Cuadro 3x3
+                $(".TempGabinete").text("");
+                $(".TempGabinete").text("Temperatura: " + result[17] + " °C");
+                $(".voltajeDC").text("");
+                $(".voltajeDC").text("Voltaje DC: " + result[5] + " [VDC]");
+                $(".voltajeAC").text("");
+                $(".voltajeAC").text("Voltaje AC: " + result[6] + " [VAC]");
+                
                 // call it again after one second
                 setTimeout(requestData, 5000);
-
             });
         }
 
@@ -55,7 +102,7 @@ var chartHumidity;
                 },
                 title:
                 {
-                    text: 'Temperature'
+                    text: 'Potencia de Recepcion Principal'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -66,14 +113,14 @@ var chartHumidity;
                     minPadding: 0.2,
                     maxPadding: 0.2,
                     title: {
-                        text: 'Value',
+                        text: 'Voltaje',
                         margin: 80
                     }
                 },
                 series: [{
                     color: '#c23d23',
                     lineColor: '#303030',
-                    name: 'Temperature',
+                    name: 'Potencia Recibida',
                     data: []
                 }]
             });
@@ -90,7 +137,7 @@ var chartHumidity;
                 },
                 title:
                 {
-                    text: 'Humidity'
+                    text: 'Potencia de Recepcion Secundaria'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -101,13 +148,13 @@ var chartHumidity;
                     minPadding: 0.2,
                     maxPadding: 0.2,
                     title: {
-                        text: 'Value',
+                        text: 'Voltaje',
                         margin: 80
                     }
                 },
                 series: [{
                     lineColor: '#1d82b8',
-                    name: 'Humidity',
+                    name: 'Potencia Recibida',
                     data: []
                 }]
             });

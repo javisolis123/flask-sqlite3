@@ -34,6 +34,17 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- JQuery links  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+
+    <style type="text/css">
+        .chart {
+            min-width: 320px;
+            max-width: 800px;
+            height: 220px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -73,7 +84,7 @@
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">COMTECO</a>
+                        <a class="d-block">COMTECO</a>
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
@@ -90,50 +101,24 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/alarmas" class="nav-link">
-                                <i class="nav-icon fas fa-exclamation-circle"></i>
+                            <a href="/Vgraficos" class="nav-link">
+                                <i class="nav-icon fas fa-chart-line"></i>
                                 <p>
-                                    Alarmas
+                                    Gráficos
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/vtecnicos" class="nav-link">
-                                <i class="nav-icon fas fa-users-cog"></i>
-                                <p>
-                                    Técnicos
-                                </p>
+                            <a href="/alarmas" class="nav-link">
+                              <i class="nav-icon fas fa-exclamation-triangle"></i>
+                              <p>
+                                Alarmas
+                                <span class="badge badge-info right" id="alarmas1">
+                                                                      
+                                </span>                                
+                              </p>
                             </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-line"></i>
-                                <p>
-                                    Gráficos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/graficohoy" class="nav-link">
-                                        <i class="far fa-arrow-alt-circle-right nav-icon"></i>
-                                        <p>Gráfico de hoy</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/graficofecha" class="nav-link">
-                                        <i class="far fa-arrow-alt-circle-right  nav-icon"></i>
-                                        <p>Por fecha</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/graficoglobal" class="nav-link">
-                                        <i class="far fa-arrow-alt-circle-right  nav-icon"></i>
-                                        <p>General</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                          </li>
                         <li class="nav-header">Configuración</li>
                         <li class="nav-item">
                             <a href="/configuracion" class="nav-link">
@@ -164,6 +149,7 @@
 
             {% block body %}
             {% endblock %}
+
 </body>
 
 </html>
