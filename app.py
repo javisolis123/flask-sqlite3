@@ -151,6 +151,32 @@ def PromedioHumedad():
     promedio = suma/aux
     return round(promedio, 3)
 
+def generate(log):
+            data = io.StringIO()
+            w = csv.writer(data)
+            # write header
+            w.writerow(('id', 'temperatura', 'humedad', 'canal1', 'canal2', 'canal3', 'canal4', 'tempGabinete', 'hora', 'fecha'))
+            yield data.getvalue()
+            data.seek(0)
+            data.truncate(0)
+            # write each log item
+            for item in log:
+                w.writerow((
+                    item.id,
+                    item.temperatura,  # format datetime as string
+                    item.humedad,
+                    item.canal1,
+                    item.canal2,
+                    item.canal3,
+                    item.canal4,
+                    item.tempGabinete,
+                    item.hora.isoformat(),
+                    item.fecha
+                ))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
 
 @app.route('/')
 def home():
@@ -283,35 +309,9 @@ def DescargarBaseDatos():
         datos = todo.query.all()
         return render_template('VistaBDD.html', titulo = 'Datos Todos', datos = datos)
     if request.method == 'POST':
-        def generate():
-            data = io.StringIO()
-            w = csv.writer(data)
-            # write header
-            w.writerow(('id', 'temperatura', 'humedad', 'canal1', 'canal2', 'canal3', 'canal4', 'tempGabinete', 'hora', 'fecha'))
-            yield data.getvalue()
-            data.seek(0)
-            data.truncate(0)
-            log = todo.query.all()
-            # write each log item
-            for item in log:
-                w.writerow((
-                    item.id,
-                    item.temperatura,  # format datetime as string
-                    item.humedad,
-                    item.canal1,
-                    item.canal2,
-                    item.canal3,
-                    item.canal4,
-                    item.tempGabinete,
-                    item.hora.isoformat(),
-                    item.fecha
-                ))
-                yield data.getvalue()
-                data.seek(0)
-                data.truncate(0)
-
+        log = todo.query.all()
         # stream the response as the data is generated
-        response = Response(generate(), mimetype='text/csv')
+        response = Response(generate(log), mimetype='text/csv')
         # add a filename
         response.headers.set("Content-Disposition", "attachment", filename="log.csv")
         return response
