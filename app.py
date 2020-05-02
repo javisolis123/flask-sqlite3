@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from time import time
 from random import random
 import json
-import flask_csv as cv
+import csv, io
+from werkzeug.wrappers import Response
+import os
 
 
 app = Flask(__name__)
@@ -275,10 +277,54 @@ def MostrarAlarmas():
     Alarmas = alarmas.query.filter_by(estado='activo').all()
     return render_template('VistaAlarmas.html', notificaciones = len(Alarmas), datos = Alarmas, titulo="Alarmas")
 
-@app.route("/prueba")
-def index():
-    return cv.send_csv([{"id": 42, "foo": "bar"}, {"id": 91, "foo": "baz"}],
-                    "test.csv", ["id", "foo"])
+@app.route('/bdd', methods=["GET", "POST"])
+def DescargarBaseDatos():
+    if request.method == 'GET':
+        datos = todo.query.all()
+        return render_template('VistaBDD.html', titulo = 'Datos Todos', datos = datos)
+    if request.method == 'POST':
+        def generate():
+            data = io.StringIO()
+            w = csv.writer(data)
+            # write header
+            w.writerow(('id', 'temperatura', 'humedad', 'canal1', 'canal2', 'canal3', 'canal4', 'tempGabinete', 'hora', 'fecha'))
+            yield data.getvalue()
+            data.seek(0)
+            data.truncate(0)
+            log = todo.query.all()
+            # write each log item
+            for item in log:
+                w.writerow((
+                    item.id,
+                    item.temperatura,  # format datetime as string
+                    item.humedad,
+                    item.canal1,
+                    item.canal2,
+                    item.canal3,
+                    item.canal4,
+                    item.tempGabinete,
+                    item.hora.isoformat(),
+                    item.fecha
+                ))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+        # stream the response as the data is generated
+        response = Response(generate(), mimetype='text/csv')
+        # add a filename
+        response.headers.set("Content-Disposition", "attachment", filename="log.csv")
+        return response
+    
+
+@app.route("/reset")
+def reset():
+    os.system('sudo reboot now)
+
+@app.route('/shutdown')
+def shutdown():
+    os.system('sudo shutdown now')
+    
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
