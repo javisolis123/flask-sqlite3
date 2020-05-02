@@ -319,7 +319,7 @@ def DescargarBaseDatos():
 
 @app.route("/reset")
 def reset():
-    os.system('sudo reboot now)
+    os.system('sudo reboot now')
 
 @app.route('/shutdown')
 def shutdown():
